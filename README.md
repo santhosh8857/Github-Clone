@@ -1,4 +1,4 @@
-# Github-Clone
+# Github Finder
 
 This Project is to clone Github web application:
 
@@ -17,7 +17,7 @@ Scopes description   -> https://docs.github.com/en/developers/apps/building-oaut
 APIs
 
 to get repo list          -> https://api.github.com/users/${userName}/repos
-to get files inside repo  -> https://api.github.com/repos/santhosh8857/API/contents
+to get files inside repo  -> https://api.github.com/repos/${userName}/${repoName}/contents
 
 
 References:
