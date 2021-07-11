@@ -1,3 +1,13 @@
+// default 
+
+let defaultUser = 'santhosh8857';
+let defaulturl = `https://api.github.com/users/${defaultUser}/repos`; 
+
+fetch(defaulturl)
+   .then(resp => resp.json())
+   .then(repos => getRepos(repos,defaultUser))
+   .catch(err => console.log(err));
+
 document.querySelector('#btn').addEventListener('click', getData);
 
 let reposWrapper = document.querySelector('#repos')//selection
@@ -10,6 +20,8 @@ function getData(e) {
 
    reposWrapper.innerHTML = '';
    choose.innerHTML = '';
+   mainFileWrapper.innerHTML='';
+   fileWrapper.innerHTML ='';
    
    let userName = document.querySelector('#search').value;
 
@@ -19,7 +31,6 @@ function getData(e) {
       .then((resp) => resp.json())
       .then((repos) => {
          if(repos.message === "Not Found") throw alert('Please Enter a valid UserName');
-         console.log(repos);
          getRepos(repos,userName);
       })
       .catch((err) => console.log(err));
@@ -35,7 +46,7 @@ function getRepos(data, user) {
 
    let selection = document.createElement('select');
    selection.classList.add('custom-select');
-   selection.innerHTML = '<option selected> Kindly Choose desired Repository to view the files...</option>'
+   selection.innerHTML = '<option selected> Kindly choose desired repository to view the files...</option>'
 
     data.forEach(function(repos){
       let options = document.createElement('option');
@@ -63,17 +74,26 @@ function getRepos(data, user) {
 }
 
 function getFiles(fileList, repository) {
-   console.log(fileList);
 
+   console.log(fileList);
    let heading = document.createElement('h4');
    heading.innerText = `"${repository}" repository contains ${fileList.length} files`;
    heading.classList.add('text-center', 'text-light','mb-4');
 
    fileList.forEach(function(file){
       let list = document.createElement('li');
-      list.classList.add('list-group-item', 'text-grey','list-width','list-group-item-light');
+      list.classList.add('list-group-item', 'text-grey','list-group-item-light', 'd-flex', 'justify-content-between', 'align-items-center');
       list.innerText = file.name;
 
+      let link = document.createElement('a');
+      link.classList.add('badge' ,'badge-primary');
+      link.setAttribute('href', file.download_url);
+      link.setAttribute('target', '_blank');
+      link.innerText = 'Open';
+      console.log(file.download_url);
+
+      list.appendChild(link);
+    
       fileWrapper.appendChild(list);
    })
 
@@ -81,27 +101,3 @@ function getFiles(fileList, repository) {
    mainFileWrapper.appendChild(fileWrapper);
 
 }
-
-// function getGithub(data) {
-//       let row = document.createElement('tr');
-
-//       let name = data.name;
-//       let respos = data.public_repos;
-
-//       if(name === null) name = data.login;
-
-//       row.innerHTML = `
-//          <td>${name}</td>
-//          <td>${respos}</td>
-//       `
-//       document.querySelector('tbody').appendChild(row);
-// }
-
-  // data.forEach(function(repos){
-   //    let list = document.createElement('li');
-   //    list.classList.add('list-group-item', 'text-grey');
-   //    list.innerText = repos.name;
-
-   //    reposList.appendChild(list);
-   // })
-
