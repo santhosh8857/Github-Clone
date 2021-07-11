@@ -8,6 +8,7 @@ fetch(defaulturl)
    .then(repos => getRepos(repos,defaultUser))
    .catch(err => console.log(err));
 
+// click event
 document.querySelector('#btn').addEventListener('click', getData);
 
 let reposWrapper = document.querySelector('#repos')//selection
@@ -17,16 +18,19 @@ let mainFileWrapper = document.querySelector('#main-file-wrapper'); //container 
 let fileWrapper = document.querySelector('#file-wrapper'); //ul
 
 function getData(e) {
-
+   // Clearing HTML wrapper    
    reposWrapper.innerHTML = '';
    choose.innerHTML = '';
    mainFileWrapper.innerHTML='';
    fileWrapper.innerHTML ='';
    
+   //getting value for username    
    let userName = document.querySelector('#search').value;
-
+   
+   //API URL for getting repos 
    let urlRepos = `https://api.github.com/users/${userName}/repos`;
-
+   
+   //fetch
    fetch(urlRepos)
       .then((resp) => resp.json())
       .then((repos) => {
@@ -39,7 +43,7 @@ function getData(e) {
 }
 
 function getRepos(data, user) {
-
+   
    let heading = document.createElement('h3');
    heading.innerText = `"${user}" has ${data.length} repositories`;
    heading.classList.add('ml-2', 'text-center', 'text-light','mb-4');
@@ -58,7 +62,8 @@ function getRepos(data, user) {
  
    choose.appendChild(selection);
    reposWrapper.append(heading, choose);
-
+   
+   //Change event
    selection.addEventListener('change', (e) => {
       mainFileWrapper.innerHTML='';
       fileWrapper.innerHTML ='';
